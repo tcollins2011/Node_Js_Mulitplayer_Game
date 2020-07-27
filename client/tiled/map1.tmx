@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.4" tiledversion="1.4.1" orientation="orthogonal" renderorder="right-down" width="25" height="25" tilewidth="32" tileheight="32" infinite="0" nextlayerid="3" nextobjectid="1">
+ <tileset firstgid="1" source="hyptosis_tile-art-batch-1.tsx"/>
+ <layer id="1" name="Tile Layer 1" width="25" height="25">
+  <data encoding="base64" compression="zstd">
+   KLUv/WDECF0AACAzAAAAAQC92XdE
+  </data>
+ </layer>
+ <layer id="2" name="Wall Layer" width="25" height="25">
+  <data encoding="base64" compression="zstd">
+   KLUv/WDECNUFAPDLAAAAKwBKKwDLSctKAElJAEoAy8tKK8vLK0rLSklhoJBtASCDCQY2AP2JIw75gXNxp8EDuJ/g98ZiBxeE9vUJ6J8E/s1E01UTbpSV3qdFt+D070ngW5jnr42cwGBGdi8v0EXRgpjhljLWIqdMNiT7knXi5EW9s0hdiJmdVBAckYodHEhGiVnxEDRkNL3iZnWZ0ma3GAdUAuYp9MfihO68vA2jiWVp90IeBMlLCKlD6uwMFltfCuF0/A==
+  </data>
+ </layer>
+</map>

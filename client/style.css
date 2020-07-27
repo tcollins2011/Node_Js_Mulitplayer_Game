@@ -1,0 +1,26 @@
+.parent {
+  display: grid;
+  grid-template: auto 1fr auto / auto 1fr auto;
+  text-align: center;
+}
+
+#header {
+  grid-column: 1 / 4;
+}
+
+#leftSide {
+  grid-column: 1 / 2;
+  text-align: left;
+}
+
+#main {
+  grid-column: 2 / 3;
+}
+
+#rightSide {
+  grid-column: 3 / 4;
+}
+
+#footer {
+  grid-column: 1 / 4;
+}
