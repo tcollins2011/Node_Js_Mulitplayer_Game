@@ -1,5 +1,8 @@
+require("./maps.js");
 var initPack = { player: [], bullet: [] };
 var removePack = { player: [], bullet: [] };
+const TILE_SIZE = 32;
+
 Entity = function (param) {
   var self = {
     x: 250,
@@ -8,6 +11,7 @@ Entity = function (param) {
     spdY: 0,
     id: "",
     map: "forest",
+    grid: newMap,
   };
 
   if (param) {
@@ -33,6 +37,18 @@ Entity = function (param) {
   };
   self.getDistance = function (pt) {
     return Math.sqrt(Math.pow(self.x - pt.x, 2) + Math.pow(self.y - pt.y, 2));
+  };
+  self.isPositionWall = function (pt) {
+    var gridX = Math.floor(pt.x / TILE_SIZE);
+    var gridY = Math.floor(pt.y / TILE_SIZE);
+
+    if (gridX < 0 || gridX >= self.grid[0].length) {
+      return true;
+    }
+    if (gridY < 0 || gridY >= self.grid.length) {
+      return true;
+    }
+    return self.grid[gridY][gridX];
   };
   return self;
 };
@@ -63,25 +79,26 @@ Player = function (param) {
   self.x = 250;
   self.y = 250;
   self.username = param.username;
-  self.number = "" + Math.floor(10 * Math.random());
   self.pressingRight = false;
   self.pressingLeft = false;
   self.pressingUp = false;
   self.pressingDown = false;
   self.pressingAttack = false;
   self.mouseAngle = 0;
-  self.maxSpd = 10;
-  self.hp = 10;
-  self.hpMax = 10;
+  self.maxSpd = 2;
+  self.hp = 2;
+  self.hpMax = 2;
   self.score = 0;
+  self.ammo = 1;
 
   var super_update = self.update;
   self.update = function () {
     self.updateSpd();
     super_update();
 
-    if (self.pressingAttack) {
+    if (self.pressingAttack && self.ammo > 0) {
       self.shootBullet(self.mouseAngle);
+      self.ammo = 0;
     }
   };
   self.shootBullet = function (angle) {
@@ -94,27 +111,31 @@ Player = function (param) {
     });
   };
   self.updateSpd = function () {
-    if (self.pressingRight) {
+    var bumperRightPos = { x: self.x + 16, y: self.y };
+    var bumperLeftPos = { x: self.x - 16, y: self.y };
+    var bumperTopPos = { x: self.x, y: self.y + 16 };
+    var bumperBottomPos = { x: self.x, y: self.y - 16 };
+    if (self.pressingRight && !self.isPositionWall(bumperRightPos)) {
       self.spdX = self.maxSpd;
-    } else if (self.pressingLeft) {
+    } else if (self.pressingLeft && !self.isPositionWall(bumperLeftPos)) {
       self.spdX = -self.maxSpd;
     } else {
       self.spdX = 0;
     }
-    if (self.pressingUp) {
+    if (self.pressingUp && !self.isPositionWall(bumperTopPos)) {
       self.spdY = self.maxSpd;
-    } else if (self.pressingDown) {
+    } else if (self.pressingDown && !self.isPositionWall(bumperBottomPos)) {
       self.spdY = -self.maxSpd;
     } else {
       self.spdY = 0;
     }
   };
+
   self.getInitPack = function () {
     return {
       id: self.id,
       x: self.x,
       y: self.y,
-      number: self.number,
       hp: self.hp,
       hpMax: self.hpMax,
       score: self.score,
@@ -138,9 +159,6 @@ Player = function (param) {
 Player.list = {};
 Player.onConnect = function (socket, username) {
   var map = "forest";
-  if (Math.random() < 0.5) {
-    map = "field";
-  }
   var player = Player({ id: socket.id, map: map, username: username });
   socket.on("keyPress", function (data) {
     if (data.inputId === "left") {
@@ -154,7 +172,10 @@ Player.onConnect = function (socket, username) {
     } else if (data.inputId === "attack") {
       player.pressingAttack = data.state;
     } else if (data.inputId === "mouseAngle") {
-      player.mouseAngle = data.state;
+      var x = data.mouseX - player.x;
+      var y = data.mouseY - player.y;
+      var angle = (Math.atan2(y, x) / Math.PI) * 180;
+      player.mouseAngle = angle;
     }
   });
 
@@ -222,17 +243,50 @@ Bullet = function (param) {
   var self = Entity(param);
   self.id = Math.random();
   self.angle = param.angle;
-  self.spdX = Math.cos((param.angle / 180) * Math.PI) * 10;
-  self.spdY = Math.sin((param.angle / 180) * Math.PI) * 10;
+  self.spdX = Math.cos((param.angle / 180) * Math.PI) * 12;
+  self.spdY = Math.sin((param.angle / 180) * Math.PI) * 12;
   self.parent = param.parent;
+  self.bounce = 0;
   self.timer = 0;
   self.toRemove = false;
   var super_update = self.update;
   self.update = function () {
-    if (self.timer++ > 100) {
+    if (self.bounce > 5) {
       self.toRemove = true;
+      Player.list[self.parent].ammo = 1;
     }
+
+    self.timer++;
+    if (self.timer >= 200) {
+      self.toRemove = true;
+      Player.list[self.parent].ammo = 1;
+    }
+
     super_update();
+
+    var bumperRightPos = { x: self.x + 8, y: self.y };
+    var bumperLeftPos = { x: self.x - 8, y: self.y };
+    var bumperTopPos = { x: self.x, y: self.y + 8 };
+    var bumperBottomPos = { x: self.x, y: self.y - 8 };
+    if (self.isPositionWall(bumperRightPos)) {
+      self.spdX = -self.spdX;
+      self.bounce += 1;
+    } else if (self.isPositionWall(bumperLeftPos)) {
+      self.spdX = -self.spdX;
+      self.bounce += 1;
+    } else {
+      self.spdX = self.spdX;
+    }
+    if (self.isPositionWall(bumperTopPos)) {
+      self.spdY = -self.spdY;
+      self.bounce += 1;
+    } else if (self.isPositionWall(bumperBottomPos)) {
+      self.spdY = -self.spdY;
+      self.bounce += 1;
+    } else {
+      self.spdY = self.spdY;
+    }
+
     for (var i in Player.list) {
       var p = Player.list[i];
       if (
@@ -249,6 +303,7 @@ Bullet = function (param) {
           p.y = Math.random() * 400;
         }
         self.toRemove = true;
+        Player.list[self.parent].ammo = 1;
       }
     }
   };
