@@ -3,24 +3,114 @@
   grid-template: auto 1fr auto / auto 1fr auto;
   text-align: center;
 }
+.first {
+  background: linear-gradient(to top, #0ba360 0%, #3cba92 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.end {
+  background-image: linear-gradient(to top, #5f72bd 0%, #9b23ea 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+body {
+  height: 100%;
+  background-color: #050515;
+}
 
 #header {
   grid-column: 1 / 4;
-}
-
-#leftSide {
-  grid-column: 1 / 2;
-  text-align: left;
+  font-size: 3em;
+  text-align: center;
 }
 
 #main {
   grid-column: 2 / 3;
+  text-align: center;
+  color: whitesmoke;
 }
 
-#rightSide {
-  grid-column: 3 / 4;
+.button {
+  background: linear-gradient(to top, #0ba360 0%, #3cba92 100%);
+  border: none;
+  color: white;
+  padding: 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  border-radius: 12px;
 }
 
-#footer {
-  grid-column: 1 / 4;
+.form {
+  background-color: #0f0f3e;
+  color: whitesmoke;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  width: 300px;
+  height: 20px;
+  margin: 10px;
+}
+#belowGame {
+  color: whitesmoke;
+}
+#gameDiv {
+  padding-left: 0;
+  padding-right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  width: 100%;
+}
+#game {
+  padding-left: 0;
+  padding-right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  width: 800px;
+  height: 800px;
+}
+#belowGame {
+  padding-left: 0;
+  padding-right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  width: 100%;
+}
+#chat-text {
+  padding-left: 0;
+  padding-right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+#chat-form {
+  padding-left: 0;
+  padding-right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  text-align: center;
+}
+canvas {
+  padding-left: 0;
+  padding-right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+::-webkit-input-placeholder {
+  color: whitesmoke;
+}
+
+:-ms-input-placeholder {
+  color: whitesmoke;
+}
+
+::placeholder {
+  color: whitesmoke;
 }

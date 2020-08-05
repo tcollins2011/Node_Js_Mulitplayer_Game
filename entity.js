@@ -76,8 +76,12 @@ Entity.getFrameUpdateData = function () {
 };
 Player = function (param) {
   var self = Entity(param);
-  self.x = 250;
-  self.y = 250;
+  var random = Math.floor(Math.random() * 6);
+  self.respawnAreaX = [60, 250, 64, 750, 700, 500];
+  self.respawnAreaY = [60, 250, 750, 250, 60, 250];
+
+  self.x = self.respawnAreaX[random];
+  self.y = self.respawnAreaY[random];
   self.username = param.username;
   self.pressingRight = false;
   self.pressingLeft = false;
@@ -90,6 +94,7 @@ Player = function (param) {
   self.hpMax = 2;
   self.score = 0;
   self.ammo = 1;
+  self.screenWidth = 0;
 
   var super_update = self.update;
   self.update = function () {
@@ -98,7 +103,7 @@ Player = function (param) {
 
     if (self.pressingAttack && self.ammo > 0) {
       self.shootBullet(self.mouseAngle);
-      self.ammo = 0;
+      self.ammo -= 1;
     }
   };
   self.shootBullet = function (angle) {
@@ -170,22 +175,25 @@ Player.onConnect = function (socket, username) {
     } else if (data.inputId === "down") {
       player.pressingDown = data.state;
     } else if (data.inputId === "attack") {
+      if (data.screenWidth) {
+        player.screenWidth = data.screenWidth;
+      }
       player.pressingAttack = data.state;
     } else if (data.inputId === "mouseAngle") {
-      var x = data.mouseX - player.x;
+      var x = data.mouseX - (player.x + player.screenWidth);
       var y = data.mouseY - player.y;
       var angle = (Math.atan2(y, x) / Math.PI) * 180;
       player.mouseAngle = angle;
     }
   });
 
-  socket.on("changeMap", function (data) {
-    if (player.map === "field") {
-      player.map = "forest";
-    } else {
-      player.map = "field";
-    }
-  });
+  // socket.on("changeMap", function (data) {
+  //   if (player.map === "field") {
+  //     player.map = "forest";
+  //   } else {
+  //     player.map = "field";
+  //   }
+  // });
   socket.emit("init", {
     selfId: socket.id,
     player: Player.getAllInitPack(),
@@ -253,7 +261,9 @@ Bullet = function (param) {
   self.update = function () {
     if (self.bounce > 5) {
       self.toRemove = true;
-      Player.list[self.parent].ammo = 1;
+      if (Player.list[self.parent]) {
+        Player.list[self.parent].ammo = 1;
+      }
     }
 
     self.timer++;
@@ -299,8 +309,11 @@ Bullet = function (param) {
             shooter.score += 1;
           }
           p.hp = p.hpMax;
-          p.x = Math.random() * 400;
-          p.y = Math.random() * 400;
+          random = Math.floor(Math.random() * 6);
+          respawnAreaX = [60, 250, 64, 750, 700, 500];
+          respawnAreaY = [60, 250, 750, 250, 60, 250];
+          p.x = respawnAreaX[random];
+          p.y = respawnAreaY[random];
         }
         self.toRemove = true;
         Player.list[self.parent].ammo = 1;

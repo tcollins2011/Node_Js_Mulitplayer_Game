@@ -8,31 +8,37 @@
     <title>Beholder War</title>
   </head>
   <body>
-    <div id="signDiv" class="parent">
+    <div id="signDiv" class="beholderBackground" class="parent">
       <div id="header">
-        <h1>Beholder War!</h1>
-      </div>
-      <div id="leftSide">
-        <div id="signDiv">
-          Username: <input id="signDiv-username" type="text" /><br />
-          Password: <input id="signDiv-password" type="password" />
-        </div>
-        <button id="signDiv-signIn">Sign In</button>
-        <button id="signDiv-signUp">Sign Up</button>
+        <h1>
+          <span class="first">Beholder</span>
+          <span class="end"> War!</span>
+        </h1>
       </div>
       <div id="main">
+        <div id="signDiv">
+          <input
+            id="signDiv-username"
+            class="form"
+            type="text"
+            placeholder="Username"
+          /><br />
+          <input
+            id="signDiv-password"
+            class="form"
+            type="password"
+            placeholder="Password"
+          />
+        </div>
+        <button id="signDiv-signIn" class="button">Sign In</button>
+        <button id="signDiv-signUp" class="button">Sign Up</button>
         <h2>Instructions</h2>
-        <p>Welcome to Beholder Wars.</p>
-      </div>
-      <div id="rightSide">
-        <p>hihi</p>
-      </div>
-      <div id="footer">
-        <p>hihi</p>
+        <p>Move around with W A S D</p>
+        <p>Fire with space bar</p>
       </div>
     </div>
     <div id="gameDiv" style="display: none;">
-      <div id="game" style="position: absolute; width: 800px; height: 800px;">
+      <div id="game">
         <canvas
           id="ctx"
           width="800"
@@ -45,16 +51,12 @@
           height="800"
           style="position: absolute; border: 1px solid #000000;"
         ></canvas>
-        <div id="ui" style="position: absolute; width: 800px; height: 800px;">
-          <!-- <button
-            onclick="changeMap()"
-            style="position: absolute; bottom: 0px; left: 0px;"
-          >
-            Change Map
-          </button> -->
-        </div>
+        <div
+          id="ui"
+          style="position: absolute; width: 800px; height: 800px;"
+        ></div>
       </div>
-      <div id="belowGame" style="margin-top: 820px;">
+      <div id="belowGame">
         <div
           id="chat-text"
           style="width: 500px; height: 100px; overflow-y: scroll;"

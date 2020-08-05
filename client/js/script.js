@@ -68,9 +68,9 @@ chatForm.onsubmit = function (e) {
 };
 // Ui
 
-var changeMap = function () {
-  socket.emit("changeMap");
-};
+// var changeMap = function () {
+//   socket.emit("changeMap");
+// };
 // game
 var Img = {};
 Img.player = new Image();
@@ -264,7 +264,15 @@ document.onkeyup = function (event) {
 };
 
 document.onmousedown = function (event) {
-  socket.emit("keyPress", { inputId: "attack", state: true });
+  clientWidth = document.documentElement.clientWidth;
+  clientHeight = document.documentElement.clientHeight;
+  width = clientWidth / 2 - 400;
+  console.log(width);
+  socket.emit("keyPress", {
+    inputId: "attack",
+    state: true,
+    screenWidth: width,
+  });
 };
 document.onmouseup = function (event) {
   socket.emit("keyPress", { inputId: "attack", state: false });
