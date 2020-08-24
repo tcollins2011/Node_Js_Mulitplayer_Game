@@ -1,6 +1,10 @@
 # Beholder War
 
-This is a simple multiplayer shooting game using express.js, canvas, and socket.io.
+**Version 1.0.0**
+
+This is a simple multiplayer shooting game using express.js, canvas, tiled and socket.io.
+
+A fairly simplistic game that focused on having a server be able to instantly update multiples clients based on individual client actions. As well as implementing game mechanics and OOP practices.
 
 ## Instillation
 
@@ -13,3 +17,8 @@ Create an account and login in to the game. The character is moved using WASD an
 ## Heroku
 
 A live version of the game is available at: https://abracadabrant-madame-91378.herokuapp.com/
+
+## Credits
+
+sprites: hyptosis
+inspiration: ScriptersWar
