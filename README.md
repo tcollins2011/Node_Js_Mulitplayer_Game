@@ -21,4 +21,5 @@ A live version of the game is available at: https://abracadabrant-madame-91378.h
 ## Credits
 
 sprites: hyptosis
+
 inspiration: ScriptersWar
