@@ -2,7 +2,7 @@
 
 **Version 1.0.0**
 
-This is a simple multiplayer shooting game using express.js, canvas, tiled and socket.io.
+A multiplayer shooting game using express.js, canvas, tiled and socket.io.
 
 A fairly simplistic game that focused on having a server be able to instantly update multiples clients based on individual client actions. As well as implementing game mechanics and OOP practices.
 

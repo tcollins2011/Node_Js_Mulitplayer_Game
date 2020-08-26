@@ -7,6 +7,7 @@ require("./entity");
 
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/My_Game", {
   useNewUrlParser: true,
+  useUnifiedTopology: true,
 });
 
 app.get("/", function (req, res) {
