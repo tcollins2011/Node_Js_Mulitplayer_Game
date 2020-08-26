@@ -6,7 +6,7 @@ This is a simple multiplayer shooting game using express.js, canvas, tiled and s
 
 A fairly simplistic game that focused on having a server be able to instantly update multiples clients based on individual client actions. As well as implementing game mechanics and OOP practices.
 
-## Instillation
+## Installation
 
 Run an npm install on a local machine and then connect a local mongoose database in the app.js file. To seed the data base run npm seed. The app can be started by running app.js and can be seen at local host 2000.
 
